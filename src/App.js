@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import { defaultGameState } from "./config/gameConfig";
 
 const initialPhrases = [
   "Lah",
@@ -12,14 +13,6 @@ const initialPhrases = [
   "Kopi tiam",
   "Terer",
   "Abuden",
-];
-
-const levels = [
-  { level: 1, time: 5000 },
-  { level: 2, time: 3000 },
-  { level: 3, time: 2000 },
-  { level: 4, time: 1500 },
-  { level: 5, time: 1000 },
 ];
 
 function shuffleArray(array) {
@@ -38,19 +31,21 @@ function App() {
   const [inputPhrase, setInputPhrase] = useState("");
   const [showPhrase, setShowPhrase] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [readyTime, setReadyTime] = useState(5);
+   const [readyTime,setReadyTime] = useState(defaultGameState.readyTime)
   const [initialCountdown, setInitialCountdown] = useState(true);
   const [questionsAnswered, setQuestionsAnswered] = useState(0);
+  const [gameState, setGameState] = useState(defaultGameState);
 
   useEffect(() => {
-    if (gameStarted && initialCountdown && readyTime > 0) {
-      const timer = setTimeout(() => setReadyTime(readyTime - 1), 1000);
+    console.log(gameState.gameStarted, gameState.preGame, gameState.readyTime);
+    if (gameState.gameStarted && gameState.preGame && readyTime > 0) {
+      console.log("pregame loading");
+      const timer = setTimeout(() => setReadyTime((prevTime)=> prevTime - 1 ), 1000);
       return () => clearTimeout(timer);
     } else if (readyTime === 0) {
-      setInitialCountdown(false);
+      setGameState({...gameState, preGame:false})
     }
-  }, [gameStarted, readyTime, initialCountdown]);
+  }, [gameState.gameStarted , gameState.preGame , readyTime]);
 
   useEffect(() => {
     if (!initialCountdown && currentLevel < phrases.length) {
@@ -59,7 +54,9 @@ function App() {
 
       const timer = setTimeout(() => {
         setShowPhrase(false);
-      }, levels[currentLevel].time);
+      // TODO Dynamic Timing for each level
+      // }, levels[currentLevel].time); 
+      }, 5000);
 
       return () => clearTimeout(timer);
     } else if (currentLevel >= phrases.length) {
@@ -82,33 +79,34 @@ function App() {
     }
   };
 
+
+  const resetGame = (isNewGame) =>{
+    // Reset game state to default game state
+    setGameState({
+      ...defaultGameState,
+      gameStarted: isNewGame,
+      preGame:true,
+    })
+    // Determine the 5 level phrases to be typed by user
+    
+  }
+
   const startGame = () => {
-    setGameStarted(true);
-    setGameOver(false);
-    setCurrentLevel(0);
-    setInputPhrase("");
-    setReadyTime(5);
-    setInitialCountdown(true);
-    setQuestionsAnswered(0);
-    setPhrases(shuffleArray(initialPhrases).slice(0, 3)); // Select 3 random phrases
+    resetGame(true);
   };
 
   const tryAgain = () => {
-    setGameOver(false);
-    setCurrentLevel(0);
-    setInputPhrase("");
-    setReadyTime(5);
-    setInitialCountdown(true);
-    setQuestionsAnswered(0);
-    setPhrases(shuffleArray(initialPhrases).slice(0, 3)); // Select 3 random phrases
+    resetGame(false);
   };
 
   return (
     <div className="App">
       <h1>Memory Typing Game</h1>
-      {!gameStarted ? (
+      {!gameState.gameStarted ? (
+        <>
         <button onClick={startGame}>Start Game</button>
-      ) : !gameOver ? (
+        </>
+      ) : !defaultGameState.gameOver ? (
         <>
           {initialCountdown ? (
             <h2>Get ready in {readyTime} seconds...</h2>
