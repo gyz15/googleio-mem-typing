@@ -30,7 +30,7 @@ const GameConfig = {
 
         questionsAnswered:0,
         currentLevel:0,
-        // marksCollected:0,
+        marksCollected:0,
     },
 
     

@@ -2,80 +2,60 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import { defaultGameState } from "./config/gameConfig";
 
-const initialPhrases = [
-  "Lah",
-  "Makan angin",
-  "Syok sendiri",
-  "Tapau",
-  "Goyang kaki",
-  "Fuyoh",
-  "Kantoi",
-  "Kopi tiam",
-  "Terer",
-  "Abuden",
-];
-
-function shuffleArray(array) {
-  const shuffledArray = [...array];
-  for (let i = shuffledArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-  }
-  return shuffledArray;
-}
 
 function App() {
   const [phrases, setPhrases] = useState([]);
-  const [currentLevel, setCurrentLevel] = useState(0);
   const [currentPhrase, setCurrentPhrase] = useState("");
   const [inputPhrase, setInputPhrase] = useState("");
   const [showPhrase, setShowPhrase] = useState(false);
-  const [gameOver, setGameOver] = useState(false);
-   const [readyTime,setReadyTime] = useState(defaultGameState.readyTime)
-  const [initialCountdown, setInitialCountdown] = useState(true);
-  const [questionsAnswered, setQuestionsAnswered] = useState(0);
+  const [readyTime,setReadyTime] = useState(defaultGameState.readyTime)
   const [gameState, setGameState] = useState(defaultGameState);
 
+  // INFO Pregame Countdown Function
   useEffect(() => {
-    console.log(gameState.gameStarted, gameState.preGame, gameState.readyTime);
     if (gameState.gameStarted && gameState.preGame && readyTime > 0) {
-      console.log("pregame loading");
       const timer = setTimeout(() => setReadyTime((prevTime)=> prevTime - 1 ), 1000);
       return () => clearTimeout(timer);
     } else if (readyTime === 0) {
-      setGameState({...gameState, preGame:false})
+      setShowPhrase(true);
+      setGameState((prevState)=>({...prevState, preGame:false}));
     }
   }, [gameState.gameStarted , gameState.preGame , readyTime]);
-
+  
+  // INFO Main game function: Memory Phase
   useEffect(() => {
-    if (!initialCountdown && currentLevel < phrases.length) {
-      setCurrentPhrase(phrases[currentLevel]);
+    // console.log(gameState.preGame, gameState.level, phrases.length);
+    if (!gameState.preGame && gameState.gameStarted && gameState.level < phrases.length) {
+      console.log("Memory phase started");
+      setCurrentPhrase(phrases[gameState.level]);
       setShowPhrase(true);
 
       const timer = setTimeout(() => {
+      console.log("Memory phase ended");
         setShowPhrase(false);
       // TODO Dynamic Timing for each level
       // }, levels[currentLevel].time); 
-      }, 5000);
+      }, 1000);
 
       return () => clearTimeout(timer);
-    } else if (currentLevel >= phrases.length) {
-      setGameOver(true);
+    } else if (gameState.level >= phrases.length) {
+      setGameState((prevState)=>({...prevState, gameOver:true}));
     }
-  }, [currentLevel, initialCountdown, phrases]);
-
-  const handleChange = (e) => {
-    setInputPhrase(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
+  }, [gameState.preGame, gameState.level, gameState.gameStarted, phrases]);
+ 
+  // INFO Post-round checking function
+  const postRoundChecking = (e) => {
     e.preventDefault();
     if (inputPhrase.toLowerCase() === currentPhrase.toLowerCase()) {
       setInputPhrase("");
-      setCurrentLevel(currentLevel + 1);
-      setQuestionsAnswered(questionsAnswered + 1);
+      // TODO Function to determine marks dynamically
+      setGameState({
+        ...gameState, 
+        level: gameState.level+1, 
+        marksCollected: gameState.marksCollected + 1,
+      });
     } else {
-      setGameOver(true);
+      setGameState({...gameState, gameOver:true});
     }
   };
 
@@ -88,7 +68,9 @@ function App() {
       preGame:true,
     })
     // Determine the 5 level phrases to be typed by user
-    
+    // WARNING: Demo phrases only, DO NOT USE IN PRODUCTION
+    setPhrases(["This", "This is", "This is a", "This is a demo", "This is a demo nia"])
+    setInputPhrase("");
   }
 
   const startGame = () => {
@@ -106,20 +88,20 @@ function App() {
         <>
         <button onClick={startGame}>Start Game</button>
         </>
-      ) : !defaultGameState.gameOver ? (
+      ) : !gameState.gameOver ? (
         <>
-          {initialCountdown ? (
+          {gameState.preGame ? (
             <h2>Get ready in {readyTime} seconds...</h2>
           ) : (
             <>
-              <h3>Question {currentLevel + 1}</h3>
+              <h3>Question {gameState.level + 1}</h3>
               {showPhrase && <h2>{currentPhrase}</h2>}
               {!showPhrase && (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={postRoundChecking}>
                   <input
                     type="text"
                     value={inputPhrase}
-                    onChange={handleChange}
+                    onChange={(e)=> setInputPhrase(e.target.value)}
                     autoFocus
                     style={{ width: "300px", height: "40px", fontSize: "16px" }}
                   />
@@ -132,8 +114,10 @@ function App() {
       ) : (
         <>
           <h2>
-            Game Over! {questionsAnswered >= 3 ? "You Win!" : "Try Again!"}
+            You have completed!
           </h2>
+          <h3>You have scored </h3>
+          <h1>{gameState.marksCollected} marks</h1>
           <button onClick={tryAgain}>Try Again</button>
         </>
       )}
