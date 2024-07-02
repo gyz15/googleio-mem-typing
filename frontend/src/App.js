@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { defaultGameState } from "./config/gameConfig";
+import { defaultGameState, levels, phrasesList} from "./config/gameConfig";
+import { selectPhrase } from "./utils/phraseSelector";
+import { calculateMark } from "./utils/calculateMark";
 
 
 function App() {
@@ -10,6 +12,7 @@ function App() {
   const [showPhrase, setShowPhrase] = useState(false);
   const [readyTime,setReadyTime] = useState(defaultGameState.readyTime)
   const [gameState, setGameState] = useState(defaultGameState);
+  const [startedElapsedTime, setStartedElapsedTime] = useState(0);
 
   // INFO Pregame Countdown Function
   useEffect(() => {
@@ -24,18 +27,17 @@ function App() {
   
   // INFO Main game function: Memory Phase
   useEffect(() => {
-    // console.log(gameState.preGame, gameState.level, phrases.length);
     if (!gameState.preGame && gameState.gameStarted && gameState.level < phrases.length) {
       console.log("Memory phase started");
       setCurrentPhrase(phrases[gameState.level]);
       setShowPhrase(true);
+      let currLevel = levels.find((level)=>level.level-1 === gameState.level);
 
       const timer = setTimeout(() => {
-      console.log("Memory phase ended");
+        // INFO: Callback function when memory phase ended 
+        console.log("Memory phase ended");
         setShowPhrase(false);
-      // TODO Dynamic Timing for each level
-      // }, levels[currentLevel].time); 
-      }, 1000);
+      }, currLevel.time);
 
       return () => clearTimeout(timer);
     } else if (gameState.level >= phrases.length) {
@@ -46,30 +48,31 @@ function App() {
   // INFO Post-round checking function
   const postRoundChecking = (e) => {
     e.preventDefault();
-    if (inputPhrase.toLowerCase() === currentPhrase.toLowerCase()) {
-      setInputPhrase("");
-      // TODO Function to determine marks dynamically
-      setGameState({
-        ...gameState, 
-        level: gameState.level+1, 
-        marksCollected: gameState.marksCollected + 1,
-      });
-    } else {
-      setGameState({...gameState, gameOver:true});
-    }
+    // WARNING:   Difficulty not implemented yet
+    const elapsedTime = (new Date() - startedElapsedTime) / 1000;
+    console.log("Used time: ", elapsedTime);
+    let marks = calculateMark(inputPhrase, currentPhrase, 0, elapsedTime);
+    setStartedElapsedTime(0);
+    setInputPhrase("");
+    setGameState({
+      ...gameState, 
+      level: gameState.level+1, 
+      marksCollected: gameState.marksCollected + marks,
+    });
   };
 
 
   const resetGame = (isNewGame) =>{
     // Reset game state to default game state
+    setReadyTime(defaultGameState.readyTime);
     setGameState({
       ...defaultGameState,
       gameStarted: isNewGame,
       preGame:true,
     })
     // Determine the 5 level phrases to be typed by user
-    // WARNING: Demo phrases only, DO NOT USE IN PRODUCTION
-    setPhrases(["This", "This is", "This is a", "This is a demo", "This is a demo nia"])
+    let currRoundPhrase = selectPhrase(phrasesList);
+    setPhrases(currRoundPhrase);
     setInputPhrase("");
   }
 
@@ -80,6 +83,14 @@ function App() {
   const tryAgain = () => {
     resetGame(false);
   };
+
+  const wpmHandler = (textBoxValue) =>{
+    if(inputPhrase ==="" && startedElapsedTime === 0){
+      console.log("First typed")
+      setStartedElapsedTime(new Date());
+    }
+    setInputPhrase(textBoxValue)
+  }
 
   return (
     <div className="App">
@@ -101,7 +112,7 @@ function App() {
                   <input
                     type="text"
                     value={inputPhrase}
-                    onChange={(e)=> setInputPhrase(e.target.value)}
+                    onChange={(e)=> wpmHandler(e.target.value)}
                     autoFocus
                     style={{ width: "300px", height: "40px", fontSize: "16px" }}
                   />

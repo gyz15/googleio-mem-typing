@@ -6,13 +6,13 @@ const GameConfig = {
     levels:
         [
             // TODO: Marks should be awarded to participants that uses lesser time to complete phrases
-            { level: 1, time: 5000, phrase: firstLevelPhrase },
-            { level: 2, time: 3000 , phrase: secondLevelPhrase },
-            { level: 3, time: 2000, phrase: thirdLevelPhrase  },
-            { level: 4, time: 1500, phrase: fourthLevelPhrase },
-            { level: 5, time: 1000, phrase: fifthLevelPhrase },
+            { level: 1, time: 5000, phrase: firstLevelPhrase, isMeme:false },
+            { level: 2, time: 3000 , phrase: secondLevelPhrase, isMeme:false },
+            { level: 3, time: 2000, phrase: thirdLevelPhrase, isMeme:false  },
+            { level: 4, time: 1500, phrase: fourthLevelPhrase, isMeme:true },
+            { level: 5, time: 1000, phrase: fifthLevelPhrase, isMeme:true },
         ],
-    phrases:[
+    phrasesList:[
         firstLevelPhrase,
         secondLevelPhrase,
         thirdLevelPhrase,
@@ -36,4 +36,4 @@ const GameConfig = {
     
 };
 
-export const { levels, phrases, defaultGameState } = GameConfig;
+export const { levels, phrasesList  , defaultGameState } = GameConfig;
