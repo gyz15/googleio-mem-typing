@@ -154,10 +154,14 @@ function App() {
             </>
           ) : (
             <>
-              <h2 className="text-5xl font-semibold">Congratulations!</h2>
-              <h3 className="text-2xl font-semibold py-5">You have scored: </h3>
+              <h2 className="text-5xl font-semibold text-white">
+                Congratulations!
+              </h2>
+              <h3 className="text-2xl font-semibold py-5 text-white">
+                You have scored:{" "}
+              </h3>
               {gameState.marksCollected === 0 ? (
-                <h1 className="pb-5 text-2xl">
+                <h1 className="pb-5 text-2xl text-white">
                   <span className="font-bold text-3xl">
                     {gameState.marksCollected}{" "}
                   </span>
