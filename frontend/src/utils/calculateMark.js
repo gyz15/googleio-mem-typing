@@ -8,9 +8,7 @@ export const calculateMark = (inputStr, checkStr, difficulty, timeUsedInSec) => 
     const speedWeight = 0.4;
     const difficultyWeight = 0.2;
 
-    // 
-
-    // TODO Complete marks weightage
+    // TODO Complete marks weightage (Left difficulty)
 
     // INFO: Accuracy
     let diff = levenshteinDistance(inputStr, checkStr);
@@ -19,7 +17,6 @@ export const calculateMark = (inputStr, checkStr, difficulty, timeUsedInSec) => 
     // INFO: Speed (WPM)
     const words = inputStr.trim().split(/\s+/).length;
     let speed = words / (timeUsedInSec / 60);
-    console.log("Speed", speed);
     
 
     let mark = (accWeight * accuracy) + (speedWeight * speed) + (difficultyWeight * difficulty);

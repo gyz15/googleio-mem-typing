@@ -1,7 +1,14 @@
-import React from 'react'
+import React from "react";
 
-export default function Result() {
+const Result = ({ marks, tryAgain }) => {
   return (
-    <div>Result</div>
-  )
-}
+    <>
+      <h2>You have completed!</h2>
+      <h3>You have scored </h3>
+      <h1>{marks} marks</h1>
+      <button onClick={tryAgain}>Try Again</button>
+    </>
+  );
+};
+
+export default Result;
