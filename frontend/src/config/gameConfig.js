@@ -5,12 +5,11 @@ import { firstLevelPhrase, secondLevelPhrase, thirdLevelPhrase, fourthLevelPhras
 const GameConfig = {
     levels:
         [
-            // TODO: Marks should be awarded to participants that uses lesser time to complete phrases
-            { level: 1, time: 5000, phrase: firstLevelPhrase, isMeme:false },
-            { level: 2, time: 3000 , phrase: secondLevelPhrase, isMeme:false },
-            { level: 3, time: 2000, phrase: thirdLevelPhrase, isMeme:false  },
-            { level: 4, time: 1500, phrase: fourthLevelPhrase, isMeme:true },
-            { level: 5, time: 1000, phrase: fifthLevelPhrase, isMeme:true },
+            { level: 1, time: 5000, phrase: firstLevelPhrase,   isMeme:false,   difficulty: 1 },
+            { level: 2, time: 3000 , phrase: secondLevelPhrase, isMeme:false,   difficulty: 2 },
+            { level: 3, time: 2000, phrase: thirdLevelPhrase,   isMeme:false,   difficulty: 3 },
+            { level: 4, time: 1500, phrase: fourthLevelPhrase,  isMeme:true,    difficulty: 4 },
+            { level: 5, time: 1000, phrase: fifthLevelPhrase,   isMeme:true,    difficulty: 5 },
         ],
     phrasesList:[
         firstLevelPhrase,
