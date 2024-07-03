@@ -1,14 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-
 
 // TODO handle data update
 // Import route files
-// const userRoutes = require('./userRoutes');
-// const postRoutes =   require('./postRoutes');
+const recordRoutes = require("./recordRoutes");
 
 // Use route files
-// router.use('/users', userRoutes);
-// router.use('/posts', postRoutes);
+router.use("/record", recordRoutes);
 
 module.exports = router;

@@ -6,6 +6,7 @@ import Question from "./Question";
 import Countdown from "./Countdown";
 import Result from "./Result";
 import Pregame from "./Pregame";
+import axios from "../../axios-config";
 
 function App() {
   const [phrases, setPhrases] = useState([]);
@@ -15,6 +16,7 @@ function App() {
   const [readyTime, setReadyTime] = useState(defaultGameState.readyTime);
   const [gameState, setGameState] = useState(defaultGameState);
   const [startedElapsedTime, setStartedElapsedTime] = useState(0);
+  const [participantName, setParticipantName] = useState("");
 
   // INFO Pregame Countdown Function
   useEffect(() => {
@@ -63,6 +65,12 @@ function App() {
       getCurrentLevel().difficulty,
       elapsedTime
     );
+
+    axios.post("/api/record/addRecord", {
+      name: "Name",
+      marks: marks,
+    });
+
     setStartedElapsedTime(0);
     setInputPhrase("");
     setGameState({

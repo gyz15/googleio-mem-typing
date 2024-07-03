@@ -1,5 +1,6 @@
 import React from "react";
 
+// TODO save participant name, validate partcipant before start game, check validity
 const Pregame = ({ startGame }) => {
   return (
     <>
