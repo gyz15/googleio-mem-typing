@@ -106,29 +106,31 @@ function App() {
   };
 
   return (
-    <div className="Game">
-      {!gameState.gameStarted ? (
-        <Pregame startGame={startGame} />
-      ) : !gameState.gameOver ? (
-        <>
-          {gameState.preGame ? (
-            <Countdown readyTime={readyTime} />
-          ) : (
-            getCurrentLevel() && (
-              <Question
-                level={getCurrentLevel()}
-                currentPhrase={currentPhrase}
-                showPhrase={showPhrase}
-                inputPhrase={inputPhrase}
-                updateCallback={wpmHandler}
-                submitCallback={postRoundChecking}
-              />
-            )
-          )}
-        </>
-      ) : (
-        <Result marks={gameState.marksCollected} tryAgain={tryAgain} />
-      )}
+    <div className="min-h-screen flex justify-center items-center">
+      <div className="container mx-auto text-center">
+        {!gameState.gameStarted ? (
+          <Pregame startGame={startGame} />
+        ) : !gameState.gameOver ? (
+          <>
+            {gameState.preGame ? (
+              <Countdown readyTime={readyTime} />
+            ) : (
+              getCurrentLevel() && (
+                <Question
+                  level={getCurrentLevel()}
+                  currentPhrase={currentPhrase}
+                  showPhrase={showPhrase}
+                  inputPhrase={inputPhrase}
+                  updateCallback={wpmHandler}
+                  submitCallback={postRoundChecking}
+                />
+              )
+            )}
+          </>
+        ) : (
+          <Result marks={gameState.marksCollected} tryAgain={tryAgain} />
+        )}
+      </div>
     </div>
   );
 }
