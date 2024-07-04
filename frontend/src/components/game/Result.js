@@ -7,7 +7,7 @@ const Result = ({ marks, tryAgain }) => {
       <h3 className="text-2xl font-semibold py-5 text-white">
         You have scored:{" "}
       </h3>
-      <h1 className="pb-2 text-2xl">{marks} marks </h1>
+      <h1 className="pb-2 text-2xl">{marks.toFixed(2)} marks </h1>
       <button
         className="rounded-full bg-yellow-500 text-white px-10 py-2  hover:bg-yellow-600 transform hover:scale-105 transition-transform duration-300"
         onClick={tryAgain}

@@ -17,6 +17,7 @@ function App() {
   const [gameState, setGameState] = useState(defaultGameState);
   const [startedElapsedTime, setStartedElapsedTime] = useState(0);
   const [participantName, setParticipantName] = useState("");
+  // const [memoryTime, setMemoryTime] = useState(0);
 
   // INFO Pregame Countdown Function
   useEffect(() => {
@@ -47,8 +48,18 @@ function App() {
         setShowPhrase(false);
       }, getCurrentLevel().time);
 
+      // const interval = setInterval(()=>{
+      // TODO
+      // return setPercentageTimeUsed
+      // })
+
       return () => clearTimeout(timer);
     } else if (gameState.level >= phrases.length) {
+      axios.post("/api/record/addRecord", {
+        name: participantName,
+        marks: gameState.marksCollected,
+      });
+      setParticipantName("");
       setGameState((prevState) => ({ ...prevState, gameOver: true }));
     }
   }, [gameState.preGame, gameState.level, gameState.gameStarted, phrases]);
@@ -65,11 +76,6 @@ function App() {
       getCurrentLevel().difficulty,
       elapsedTime
     );
-
-    axios.post("/api/record/addRecord", {
-      name: "Name",
-      marks: marks,
-    });
 
     setStartedElapsedTime(0);
     setInputPhrase("");
@@ -117,7 +123,11 @@ function App() {
     <div className="min-h-screen flex justify-center items-center">
       <div className="container mx-auto text-center">
         {!gameState.gameStarted ? (
-          <Pregame startGame={startGame} />
+          <Pregame
+            startGame={startGame}
+            participantName={participantName}
+            setParticipantName={setParticipantName}
+          />
         ) : !gameState.gameOver ? (
           <>
             {gameState.preGame ? (

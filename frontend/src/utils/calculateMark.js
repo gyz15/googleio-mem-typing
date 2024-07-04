@@ -27,5 +27,5 @@ export const calculateMark = (
     accWeight * accuracy + speedWeight * speed + difficultyWeight * difficulty;
 
   mark = mark > 0 ? mark : 0;
-  return mark;
+  return parseFloat(mark.toFixed(2));
 };

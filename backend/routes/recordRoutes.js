@@ -8,8 +8,6 @@ router.get("/test", (req, res) => {
 });
 
 router.post("/addRecord", (req, res) => {
-  console.log(req.body.name, req.body.marks);
-
   const newRecord = new Record({
     name: req.body.name,
     marks: req.body.marks,

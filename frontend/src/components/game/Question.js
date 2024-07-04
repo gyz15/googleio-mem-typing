@@ -1,4 +1,5 @@
 import React from "react";
+import LoadingBar from "./LoadingBar";
 
 const Question = ({
   level,
@@ -8,17 +9,26 @@ const Question = ({
   updateCallback,
   submitCallback,
 }) => {
-  console.log(level);
   // TODO Meme part
+  console.log(level);
   return (
     <>
       <h3 className="text-5xl text-white font-semibold">
         Question {level.level}
       </h3>
       {showPhrase && (
-        <h2 className="text-6xl font-bold underline underline-offset-2 pt-5">
-          {currentPhrase}
-        </h2>
+        <>
+          {level.isMeme && (
+            <img
+              src={require(`../../imgQuestion/${level.level}-${currentPhrase}.jpg`)}
+              className="w-3/5 mx-auto mt-5"
+              alt="question"
+            />
+          )}
+          <h2 className="text-4xl font-bold underline pt-5">{currentPhrase}</h2>
+
+          <LoadingBar seconds={level.time / 1000} />
+        </>
       )}
       {!showPhrase && (
         <form onSubmit={submitCallback} className="mt-4">
@@ -27,7 +37,7 @@ const Question = ({
             value={inputPhrase}
             onChange={(e) => updateCallback(e.target.value)}
             autoFocus
-            className="border-2 border-gray-300 p-2 text-lg w-72"
+            className="border-2 border-gray-300 p-2 text-lg w-80"
           />
           <button
             type="submit"
