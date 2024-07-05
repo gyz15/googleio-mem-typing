@@ -12,18 +12,19 @@ const Ranking = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center bg-gray-100">
+    <div className="text-left m-4 w-screen p-10">
+      <h1 className="text-4xl m-">Ranking</h1>
       <div className="container mx-auto w-400">
         <table className="min-w-full bg-white m-10">
           <thead>
             <tr>
-              <th className="py-2 px-4 bg-gray-200 text-gray-600 font-bold">
+              <th className="py-2 px-4 bg-gray-200 text-gray-600 font-bold text-center">
                 No.
               </th>
-              <th className="py-2 px-4 bg-gray-200 text-gray-600 font-bold">
+              <th className="py-2 px-4 bg-gray-200 text-gray-600 font-bold text-center">
                 Name
               </th>
-              <th className="py-2 px-4 bg-gray-200 text-gray-600 font-bold">
+              <th className="py-2 px-4 bg-gray-200 text-gray-600 font-bold text-center">
                 Marks
               </th>
             </tr>

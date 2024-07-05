@@ -3,17 +3,9 @@
 
 import { levenshteinDistance } from "./levenShteinDist";
 
-export const calculateMark = (
-  inputStr,
-  checkStr,
-  difficulty,
-  timeUsedInSec
-) => {
+export const calculateMark = (inputStr, checkStr, bonus, timeUsedInSec) => {
   const accWeight = 0.4;
   const speedWeight = 0.4;
-  const difficultyWeight = 0.2;
-
-  // TODO Complete marks weightage (Left difficulty)
 
   // INFO: Accuracy
   let diff = levenshteinDistance(inputStr, checkStr);
@@ -23,9 +15,11 @@ export const calculateMark = (
   const words = inputStr.trim().split(/\s+/).length;
   let speed = words / (timeUsedInSec / 60);
 
-  let mark =
-    accWeight * accuracy + speedWeight * speed + difficultyWeight * difficulty;
+  let mark = accWeight * accuracy + speedWeight * speed;
+  if (accuracy === 100) {
+    mark += bonus;
+    console.log("Bonus added:", mark, bonus);
+  }
 
-  mark = mark > 0 ? mark : 0;
   return parseFloat(mark.toFixed(2));
 };

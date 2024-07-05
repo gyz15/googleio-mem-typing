@@ -10,7 +10,6 @@ const Question = ({
   submitCallback,
 }) => {
   // TODO Meme part
-  console.log(level);
   return (
     <>
       <h3 className="text-5xl text-white font-semibold">
@@ -19,14 +18,15 @@ const Question = ({
       {showPhrase && (
         <>
           {level.isMeme && (
-            <img
-              src={require(`../../imgQuestion/${level.level}-${currentPhrase}.jpg`)}
-              className="w-3/5 mx-auto mt-5"
-              alt="question"
-            />
+            <div className="h-80">
+              <img
+                src={require(`../../imgQuestion/${level.level}-${currentPhrase}.jpg`)}
+                className="h-3/5 mx-auto mt-5"
+                alt="question"
+              />
+            </div>
           )}
           <h2 className="text-4xl font-bold underline pt-5">{currentPhrase}</h2>
-
           <LoadingBar seconds={level.time / 1000} />
         </>
       )}

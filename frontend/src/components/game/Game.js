@@ -55,10 +55,12 @@ function App() {
 
       return () => clearTimeout(timer);
     } else if (gameState.level >= phrases.length) {
-      axios.post("/api/record/addRecord", {
-        name: participantName,
-        marks: gameState.marksCollected,
-      });
+      if (gameState.marksCollected > 0) {
+        axios.post("/api/record/addRecord", {
+          name: participantName,
+          marks: gameState.marksCollected,
+        });
+      }
       setParticipantName("");
       setGameState((prevState) => ({ ...prevState, gameOver: true }));
     }
@@ -67,13 +69,12 @@ function App() {
   // INFO Post-round checking function
   const postRoundChecking = (e) => {
     e.preventDefault();
-    // WARNING:   Difficulty not implemented yet
     const elapsedTime = (new Date() - startedElapsedTime) / 1000;
 
     let marks = calculateMark(
       inputPhrase,
       currentPhrase,
-      getCurrentLevel().difficulty,
+      getCurrentLevel().bonus,
       elapsedTime
     );
 
