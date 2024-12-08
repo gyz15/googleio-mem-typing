@@ -6,14 +6,15 @@ const Ranking = () => {
 
   useEffect(() => {
     axios.get("/api/record/ranking").then((res) => {
-      console.log(res.data);
       setFetchedRanking(res.data);
     });
   }, []);
 
   return (
     <div className="text-left m-4 w-screen p-10">
-      <h1 className="text-4xl m-">Ranking</h1>
+      <h1 className="text-4xl text-center">
+        Startup Week Malaysia Keyboard Warrior (#nontoxic)
+      </h1>
       <div className="container mx-auto w-400">
         <table className="min-w-full bg-white m-10">
           <thead>
