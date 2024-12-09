@@ -2,22 +2,21 @@
 // TODO: Create 15-20 different phrases in each level to minimise repetition.
 
 const firstLevelPhrase = [
-  "In Malaysia, we use 'Apa khabar world!'",
-  "Light mode attract bugs.",
-  "I test my code during production.",
-  "git push origin master --force",
-  "MyJob = ChatGPT + StackOverflow;",
-  "I count from 0 instead of 1.",
+  "Harnessing the power of technology to create meaningful solutions for today and tomorrow",
+  "From small beginnings to global impact, we pave the way for transformative ideas",
+  "Building solutions that inspire progress, challenge norms, and redefine industry standards",
+  "Driving innovation at the intersection of creativity, technology, and sustainable growth",
+  "Empowering bold entrepreneurs to transform visions into scalable, world-changing realities",
+  "Collaborating with visionaries to develop ideas that leave a lasting legacy in the world",
 ];
 
 const secondLevelPhrase = [
-  "Chill lah, no need to rush.",
-  "How do I center a button?",
-  "How to invert a binary tree?",
-  "The production server has crashed.",
-  "sudo rm -rf /*",
-  "Help me, I can't exit vim.",
-  "It's not a bug, it's a feature.",
+  "With a commitment to innovation, we nurture ideas and turn startups into catalysts for progress in a fast-changing world",
+  "Partnering with dreamers and doers, we enable startups to challenge norms and create scalable, impactful solutions for the modern world",
+  "At the heart of progress, we ignite innovative journeys that redefine industries and create value for communities and stakeholders alike",
+  "Building a culture of relentless innovation, we guide entrepreneurs toward creating groundbreaking solutions that elevate industries and change lives",
+  "Our mission is to bridge imagination and practicality, empowering startups to create meaningful solutions that resonate with communities worldwide",
+  "Driven by passion and innovation, we transform bold concepts into scalable realities that redefine success and inspire lasting global impact",
 ];
 
 const thirdLevelPhrase = [

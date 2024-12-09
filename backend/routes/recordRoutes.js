@@ -25,7 +25,7 @@ router.post("/addRecord", (req, res) => {
 router.get("/ranking", (req, res) => {
   Record.find()
     .sort({ marks: -1 })
-    .limit(10)
+    .limit(30)
     .then((record) => res.json(record))
     .catch((err) => res.status(404).json({ record: "No records found" }));
 });

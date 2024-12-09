@@ -26,7 +26,9 @@ const Question = ({
               />
             </div>
           )}
-          <h2 className="text-4xl font-bold underline pt-5">{currentPhrase}</h2>
+          <h2 className="text-4xl font-bold underline pt-5 select-none">
+            {currentPhrase}
+          </h2>
           <LoadingBar seconds={level.time / 1000} />
         </>
       )}

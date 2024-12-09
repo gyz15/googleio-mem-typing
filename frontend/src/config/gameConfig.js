@@ -7,7 +7,6 @@ import {
   fourthLevelPhrase,
   fifthLevelPhrase,
 } from "./phrase";
-
 const GameConfig = {
   levels: [
     {
